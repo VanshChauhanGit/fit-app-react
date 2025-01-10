@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { exercisesData, daysOfWeek } from "../helper";
 import { useNavigate } from "react-router";
+import Notification from "./Notification";
 
 const WorkoutPlanForm = () => {
   const [activeDay, setActiveDay] = useState(""); // Tracks which day's section is expanded
@@ -12,11 +13,12 @@ const WorkoutPlanForm = () => {
     reps: "",
     targetedMuscle: "",
   });
+  const [notification, setNotification] = useState({ message: "", type: "" });
+  const clearNotification = () => setNotification({ message: "", type: "" });
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Load workout plan from local storage if it exists
     const savedWorkouts = localStorage.getItem("workouts");
     if (savedWorkouts) {
       setWorkouts(JSON.parse(savedWorkouts));
@@ -58,7 +60,10 @@ const WorkoutPlanForm = () => {
       !newExercise.reps ||
       !newExercise.targetedMuscle
     ) {
-      alert("Please complete all exercise details.");
+      setNotification({
+        message: "Please complete all exercise details.",
+        type: "error",
+      });
       return;
     }
 
@@ -67,7 +72,10 @@ const WorkoutPlanForm = () => {
     if (
       existingExercises.some((exercise) => exercise.name === newExercise.name)
     ) {
-      alert("This exercise is already added for the selected day.");
+      setNotification({
+        message: "This exercise is already added for the selected day.",
+        type: "error",
+      });
       return;
     }
 
@@ -106,14 +114,20 @@ const WorkoutPlanForm = () => {
     });
 
     if (!allFilled) {
-      alert("Please complete all days or mark them as rest.");
+      setNotification({
+        message: "Please complete all days workout or mark them as rest.",
+        type: "error",
+      });
       return;
     }
 
     localStorage.setItem("workouts", JSON.stringify(workouts));
-    alert("Workout Plan Saved!");
+    setNotification({
+      message: "Workout Plan Saved Successfully!",
+      type: "success",
+    });
 
-    navigate("/workoutplan");
+    setTimeout(() => navigate("/workoutplan"), 3000);
   };
 
   return (
@@ -299,6 +313,14 @@ const WorkoutPlanForm = () => {
           Save Weekly Plan
         </button>
       </div>
+      {notification.message && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          duration={3000}
+          onClose={clearNotification}
+        />
+      )}
     </div>
   );
 };

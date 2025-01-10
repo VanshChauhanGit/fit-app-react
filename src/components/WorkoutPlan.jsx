@@ -19,10 +19,8 @@ function WorkoutPlan() {
     setWorkoutPlan(parsedPlan);
   }, []);
 
-  console.log(workoutPlan);
-
   return (
-    <section className="">
+    <section>
       {workoutPlan ? (
         <>
           <div className="w-full p-4 rounded-lg shadow-lg m-4x-auto p bg-background contain">
@@ -34,10 +32,15 @@ function WorkoutPlan() {
               <div key={day} className="mb-4">
                 {/* Day Header */}
                 <div
-                  className="flex items-center justify-between p-3 bg-gray-100 rounded-lg cursor-pointer"
+                  className="flex items-center justify-between p-3 bg-gray-200 rounded-lg cursor-pointer"
                   onClick={() => toggleDaySection(day)}
                 >
                   <h3 className="text-xl font-semibold text-text">{day}</h3>
+                  <img
+                    className="size-8"
+                    src={activeDay === day ? "uparrow.png" : "downarrow.png"}
+                    alt=""
+                  />
                 </div>
 
                 {/* Day Content */}
@@ -60,7 +63,7 @@ function WorkoutPlan() {
                     </div> */}
 
                     <div className="mt-2">
-                      <h4 className="text-xl font-bold text-center text-text">
+                      <h4 className="text-2xl font-bold text-center text-text">
                         Muscles to Train
                       </h4>
                       <div className="mt-2">
@@ -76,7 +79,7 @@ function WorkoutPlan() {
                               <table className="w-full border-collapse table-auto">
                                 <thead>
                                   <tr>
-                                    <th className="p-2 border border-gray-300">
+                                    <th className="p-2 border border-gray-300 rounded-lg">
                                       Exercise
                                     </th>
                                     <th className="p-2 border border-gray-300">
@@ -96,7 +99,7 @@ function WorkoutPlan() {
                                     .map((exercise, index) => (
                                       <tr
                                         key={index}
-                                        className="odd:bg-secondary"
+                                        className="odd:bg-gray-200"
                                       >
                                         <td className="p-2 border border-gray-300">
                                           {exercise.name}
@@ -121,7 +124,7 @@ function WorkoutPlan() {
 
                 {activeDay === day && workoutPlan[day]?.isRest && (
                   <p className="px-2 mt-4 text-xl text-primary">
-                    This day is marked as rest.
+                    The day is marked as rest.
                   </p>
                 )}
               </div>

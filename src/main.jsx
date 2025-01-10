@@ -7,7 +7,7 @@ import Home from "./components/Home.jsx";
 import Workout from "./components/Workout.jsx";
 import WorkoutPlan from "./components/WorkoutPlan.jsx";
 import AddWorkoutPlan from "./components/WorkoutPlanForm.jsx";
-import { store } from "./redux/store.js";
+import store from "./redux/store.js";
 import { Provider } from "react-redux";
 
 createRoot(document.getElementById("root")).render(
