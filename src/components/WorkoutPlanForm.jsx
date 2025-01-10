@@ -6,7 +6,7 @@ import Notification from "./Notification";
 
 const WorkoutPlanForm = () => {
   const [activeDay, setActiveDay] = useState(""); // Tracks which day's section is expanded
-  const [workouts, setWorkouts] = useState({});
+  const [workoutPlan, setWorkoutPlan] = useState({});
   const [newExercise, setNewExercise] = useState({
     name: "",
     sets: "",
@@ -19,9 +19,9 @@ const WorkoutPlanForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedWorkouts = localStorage.getItem("workouts");
-    if (savedWorkouts) {
-      setWorkouts(JSON.parse(savedWorkouts));
+    const savedWorkoutPlan = localStorage.getItem("workoutPlan");
+    if (savedWorkoutPlan) {
+      setWorkoutPlan(JSON.parse(savedWorkoutPlan));
     }
   }, []);
 
@@ -30,24 +30,24 @@ const WorkoutPlanForm = () => {
   };
 
   const handleRestToggle = (day) => {
-    setWorkouts((prevWorkouts) => ({
-      ...prevWorkouts,
+    setWorkoutPlan((prevWorkoutPlan) => ({
+      ...prevWorkoutPlan,
       [day]: {
-        ...prevWorkouts[day],
-        isRest: !prevWorkouts[day]?.isRest,
-        exercises: !prevWorkouts[day]?.isRest
+        ...prevWorkoutPlan[day],
+        isRest: !prevWorkoutPlan[day]?.isRest,
+        exercises: !prevWorkoutPlan[day]?.isRest
           ? []
-          : prevWorkouts[day]?.exercises,
+          : prevWorkoutPlan[day]?.exercises,
         selectedMuscles: [],
       },
     }));
   };
 
   const handleMuscleChange = (day, selectedOptions) => {
-    setWorkouts((prevWorkouts) => ({
-      ...prevWorkouts,
+    setWorkoutPlan((prevWorkoutPlan) => ({
+      ...prevWorkoutPlan,
       [day]: {
-        ...prevWorkouts[day],
+        ...prevWorkoutPlan[day],
         selectedMuscles: selectedOptions,
       },
     }));
@@ -68,7 +68,7 @@ const WorkoutPlanForm = () => {
     }
 
     // Prevent duplicate exercises
-    const existingExercises = workouts[day]?.exercises || [];
+    const existingExercises = workoutPlan[day]?.exercises || [];
     if (
       existingExercises.some((exercise) => exercise.name === newExercise.name)
     ) {
@@ -79,7 +79,7 @@ const WorkoutPlanForm = () => {
       return;
     }
 
-    setWorkouts((prevWorkouts) => ({
+    setWorkoutPlan((prevWorkouts) => ({
       ...prevWorkouts,
       [day]: {
         ...prevWorkouts[day],
@@ -90,14 +90,14 @@ const WorkoutPlanForm = () => {
   };
 
   const handleDeleteExercise = (day, index) => {
-    setWorkouts((prevWorkouts) => {
-      const updatedExercises = prevWorkouts[day].exercises.filter(
+    setWorkoutPlan((prevWorkoutPlan) => {
+      const updatedExercises = prevWorkoutPlan[day].exercises.filter(
         (_, i) => i !== index
       );
       return {
-        ...prevWorkouts,
+        ...prevWorkoutPlan,
         [day]: {
-          ...prevWorkouts[day],
+          ...prevWorkoutPlan[day],
           exercises: updatedExercises,
         },
       };
@@ -106,7 +106,7 @@ const WorkoutPlanForm = () => {
 
   const handleSaveWorkout = () => {
     const allFilled = daysOfWeek.every((day) => {
-      const dayData = workouts[day];
+      const dayData = workoutPlan[day];
       return (
         dayData?.isRest ||
         (dayData?.exercises?.length > 0 && dayData?.selectedMuscles?.length > 0)
@@ -121,7 +121,7 @@ const WorkoutPlanForm = () => {
       return;
     }
 
-    localStorage.setItem("workouts", JSON.stringify(workouts));
+    localStorage.setItem("workoutPlan", JSON.stringify(workoutPlan));
     setNotification({
       message: "Workout Plan Saved Successfully!",
       type: "success",
@@ -131,8 +131,8 @@ const WorkoutPlanForm = () => {
   };
 
   return (
-    <div className="w-full p-4 mx-auto bg-white rounded-lg shadow-lg contain">
-      <h2 className="mb-4 text-2xl font-bold text-center">
+    <div className="w-full mx-auto mb-4 bg-white rounded-lg shadow-lg contain">
+      <h2 className="m-4 text-2xl font-bold text-center">
         Weekly Workout Plan
       </h2>
 
@@ -150,17 +150,17 @@ const WorkoutPlanForm = () => {
                 handleRestToggle(day);
               }}
               className={`py-1 px-3 rounded ${
-                workouts[day]?.isRest
+                workoutPlan[day]?.isRest
                   ? "bg-red-500 text-white opacity-80 hover:opacity-100"
                   : "bg-green-500 text-white opacity-80 hover:opacity-100"
               }`}
             >
-              {workouts[day]?.isRest ? "Cancel Rest" : "Set as Rest"}
+              {workoutPlan[day]?.isRest ? "Cancel Rest" : "Set as Rest"}
             </button>
           </div>
 
           {/* Day Content */}
-          {activeDay === day && !workouts[day]?.isRest && (
+          {activeDay === day && !workoutPlan[day]?.isRest && (
             <div className="p-4 mt-4 border rounded-lg">
               <h4 className="text-lg font-semibold">Muscles to Train</h4>
               <Select
@@ -171,7 +171,7 @@ const WorkoutPlanForm = () => {
                     label: muscle,
                   })),
                 ]}
-                value={workouts[day]?.selectedMuscles}
+                value={workoutPlan[day]?.selectedMuscles}
                 onChange={(selectedOptions) =>
                   handleMuscleChange(day, selectedOptions)
                 }
@@ -191,7 +191,7 @@ const WorkoutPlanForm = () => {
                   className="w-full px-4 py-2 border rounded-md"
                 >
                   <option value="">Select a muscle</option>
-                  {workouts[day]?.selectedMuscles?.map((muscle) => (
+                  {workoutPlan[day]?.selectedMuscles?.map((muscle) => (
                     <option key={muscle.value} value={muscle.value}>
                       {muscle.label}
                     </option>
@@ -211,7 +211,7 @@ const WorkoutPlanForm = () => {
                   {newExercise.targetedMuscle &&
                     exercisesData[newExercise.targetedMuscle]?.map(
                       (exercise) => {
-                        const isSelected = workouts[day]?.exercises?.some(
+                        const isSelected = workoutPlan[day]?.exercises?.some(
                           (addedExercise) => addedExercise.name === exercise
                         );
                         return (
@@ -274,9 +274,9 @@ const WorkoutPlanForm = () => {
                 + Add Exercise
               </button>
 
-              {workouts[day]?.exercises?.length > 0 && (
+              {workoutPlan[day]?.exercises?.length > 0 && (
                 <ul className="flex flex-col gap-2">
-                  {workouts[day].exercises.map((exercise, index) => (
+                  {workoutPlan[day].exercises.map((exercise, index) => (
                     <li
                       key={index}
                       className="flex items-center justify-between p-2 rounded-md bg-secondary"
@@ -299,7 +299,7 @@ const WorkoutPlanForm = () => {
             </div>
           )}
 
-          {activeDay === day && workouts[day]?.isRest && (
+          {activeDay === day && workoutPlan[day]?.isRest && (
             <p className="mt-4 text-gray-500">This day is marked as rest.</p>
           )}
         </div>
@@ -308,7 +308,7 @@ const WorkoutPlanForm = () => {
       <div className="text-center">
         <button
           onClick={handleSaveWorkout}
-          className="px-4 py-2 mt-4 rounded-lg text-text bg-primary opacity-90 hover:opacity-100"
+          className="px-4 py-2 mt-4 font-semibold rounded-lg text-text bg-primary bg-opacity-80 hover:bg-opacity-100"
         >
           Save Weekly Plan
         </button>

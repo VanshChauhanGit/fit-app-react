@@ -12,7 +12,7 @@ function WorkoutPlan() {
   };
 
   useEffect(() => {
-    const storedPlan = localStorage.getItem("workouts");
+    const storedPlan = localStorage.getItem("workoutPlan");
 
     const parsedPlan = storedPlan ? JSON.parse(storedPlan) : null;
 
@@ -20,10 +20,10 @@ function WorkoutPlan() {
   }, []);
 
   return (
-    <section>
+    <section className="py-4">
       {workoutPlan ? (
         <>
-          <div className="w-full p-4 rounded-lg shadow-lg m-4x-auto p bg-background contain">
+          <div className="w-full p-4 py-8 rounded-lg shadow-lg bg-background contain">
             <h2 className="mb-4 text-2xl font-bold text-center text-text">
               Weekly Workout Plan
             </h2>
@@ -132,7 +132,7 @@ function WorkoutPlan() {
             <div className="text-center">
               <button
                 onClick={() => navigate("/workoutplan/change")}
-                className="px-4 py-2 mt-4 font-semibold rounded-lg text-text bg-primary"
+                className="px-4 py-2 mt-4 font-semibold rounded-lg text-text bg-primary bg-opacity-80 hover:bg-opacity-100"
               >
                 Edit Workout Plan
               </button>
