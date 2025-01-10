@@ -137,8 +137,8 @@ const WorkoutPlanForm = () => {
               }}
               className={`py-1 px-3 rounded ${
                 workouts[day]?.isRest
-                  ? "bg-red-500 text-white"
-                  : "bg-green-500 text-white"
+                  ? "bg-red-500 text-white opacity-80 hover:opacity-100"
+                  : "bg-green-500 text-white opacity-80 hover:opacity-100"
               }`}
             >
               {workouts[day]?.isRest ? "Cancel Rest" : "Set as Rest"}
@@ -255,17 +255,17 @@ const WorkoutPlanForm = () => {
 
               <button
                 onClick={() => handleAddExercise(day)}
-                className="px-4 py-2 mb-4 text-white rounded-lg bg-primary"
+                className="px-4 py-2 mb-4 text-white rounded-lg bg-primary hover:bg-secondary hover:text-text"
               >
                 + Add Exercise
               </button>
 
               {workouts[day]?.exercises?.length > 0 && (
-                <ul className="mt-4">
+                <ul className="flex flex-col gap-2">
                   {workouts[day].exercises.map((exercise, index) => (
                     <li
                       key={index}
-                      className="flex items-center justify-between"
+                      className="flex items-center justify-between p-2 rounded-md bg-secondary"
                     >
                       <span>
                         {exercise.name} - {exercise.sets} sets of{" "}
@@ -274,7 +274,7 @@ const WorkoutPlanForm = () => {
                       </span>
                       <button
                         onClick={() => handleDeleteExercise(day, index)}
-                        className="text-red-500"
+                        className="p-1 text-red-500 border-2 border-red-500 rounded-md hover:bg-primary"
                       >
                         Delete
                       </button>
@@ -294,7 +294,7 @@ const WorkoutPlanForm = () => {
       <div className="text-center">
         <button
           onClick={handleSaveWorkout}
-          className="px-4 py-2 mt-4 text-white rounded-lg bg-primary"
+          className="px-4 py-2 mt-4 rounded-lg text-text bg-primary opacity-90 hover:opacity-100"
         >
           Save Weekly Plan
         </button>

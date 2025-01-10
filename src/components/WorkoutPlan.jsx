@@ -65,51 +65,53 @@ function WorkoutPlan() {
                       </h4>
                       <div className="mt-2">
                         {workoutPlan[day]?.selectedMuscles.map((muscle) => (
-                          <div key={muscle.value} className="mt-4">
+                          <div key={muscle.value} className="mt-8">
                             {/* Muscle Name */}
                             <h5 className="text-xl font-bold text-primary">
                               {muscle.value}
                             </h5>
 
                             {/* Exercises Table */}
-                            <table className="w-full mt-2 border-collapse table-auto">
-                              <thead>
-                                <tr>
-                                  <th className="p-2 border border-gray-300">
-                                    Exercise
-                                  </th>
-                                  <th className="p-2 border border-gray-300">
-                                    Sets
-                                  </th>
-                                  <th className="p-2 border border-gray-300">
-                                    Reps Range
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {workoutPlan[day]?.exercises
-                                  ?.filter(
-                                    (exercise) =>
-                                      exercise.targetedMuscle === muscle.value
-                                  )
-                                  .map((exercise, index) => (
-                                    <tr
-                                      key={index}
-                                      className="odd:bg-secondary"
-                                    >
-                                      <td className="p-2 border border-gray-300">
-                                        {exercise.name}
-                                      </td>
-                                      <td className="p-2 text-center border border-gray-300">
-                                        {exercise.sets}
-                                      </td>
-                                      <td className="p-2 text-center border border-gray-300">
-                                        {exercise.reps}
-                                      </td>
-                                    </tr>
-                                  ))}
-                              </tbody>
-                            </table>
+                            <div className="mt-2 overflow-x-auto">
+                              <table className="w-full border-collapse table-auto">
+                                <thead>
+                                  <tr>
+                                    <th className="p-2 border border-gray-300">
+                                      Exercise
+                                    </th>
+                                    <th className="p-2 border border-gray-300">
+                                      Sets
+                                    </th>
+                                    <th className="p-2 border border-gray-300">
+                                      Reps Range
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {workoutPlan[day]?.exercises
+                                    ?.filter(
+                                      (exercise) =>
+                                        exercise.targetedMuscle === muscle.value
+                                    )
+                                    .map((exercise, index) => (
+                                      <tr
+                                        key={index}
+                                        className="odd:bg-secondary"
+                                      >
+                                        <td className="p-2 border border-gray-300">
+                                          {exercise.name}
+                                        </td>
+                                        <td className="p-2 text-center border border-gray-300">
+                                          {exercise.sets}
+                                        </td>
+                                        <td className="p-2 text-center border border-gray-300">
+                                          {exercise.reps}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -118,7 +120,7 @@ function WorkoutPlan() {
                 )}
 
                 {activeDay === day && workoutPlan[day]?.isRest && (
-                  <p className="mt-4 text-xl text-gray-500">
+                  <p className="px-2 mt-4 text-xl text-primary">
                     This day is marked as rest.
                   </p>
                 )}

@@ -7,20 +7,20 @@ import { BsLightningCharge } from "react-icons/bs";
 const Navbar = () => {
   return (
     <>
-      <nav className="bg-black z-50 text-white md:hidden top-0 w-full fixed md:w-auto items-center px-6 py-2">
-        <div className="flex items-center gap-2 font-bold text-2xl text-primary">
+      <nav className="fixed top-0 z-50 items-center w-full px-6 py-2 text-white bg-black md:hidden md:w-auto">
+        <div className="flex items-center gap-2 text-2xl font-bold text-primary">
           Fit <BsLightningCharge size={24} />
         </div>
       </nav>
-      <nav className="bg-black z-50 text-white fixed bottom-0 w-full md:fixed md:top-0 md:w md:h-20 md:w-full md:flex md:items-center md:px-8 md:py-4">
+      <nav className="fixed bottom-0 z-50 w-full text-white bg-black md:fixed md:top-0 md:w md:h-20 md:w-full md:flex md:items-center md:px-8 md:py-4">
         {/* Desktop App Name */}
-        <div className="hidden md:flex md:items-center gap-2 font-bold text-2xl text-primary">
+        <div className="hidden gap-2 text-2xl font-bold md:flex md:items-center text-primary">
           Fit <BsLightningCharge size={24} />
         </div>
-        <div className="flex justify-around items-center md:ml-auto">
+        <div className="flex items-center justify-around md:ml-auto">
           {/* Dashboard Link */}
           <NavLink
-            to="/dashboard"
+            to="/"
             className={({ isActive }) =>
               `flex flex-col items-center px-4 py-2 ${
                 isActive ? "text-primary" : "text-gray-400"
