@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .contain {
+    @apply px-6 py-16 md:py-20 bg-background min-h-screen;
+  }
+}
